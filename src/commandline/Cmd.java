@@ -1,5 +1,8 @@
 package commandline;
 
+import classpath.ClassPath;
+import utils.bprint.FullPrint;
+
 import java.util.Arrays;
 
 /**
@@ -10,7 +13,7 @@ public class Cmd {
 
     private String helpFlag = "help";
     private String versionFlag = "0.0.1";
-
+    private String xJreOption = "Xjre";
     private String cpOption = "cp";
     private String className;
     private String[] args;
@@ -22,22 +25,37 @@ public class Cmd {
             System.out.println("help");
         } else if ("version".equals(args[0]) && args.length == 1){
             System.out.println("bjvm version " + versionFlag);
-        } else if (cpOption.equals(args[0]) && args.length > 2){
-            String [] temp = new String[args.length - 1];
-            System.arraycopy(args,1,temp,0,args.length - 1);
-            startJVM(temp);
+        } else if ((findArgs(args,cpOption)|| findArgs(args,xJreOption)) && args.length > 2){
+            startJVM(args);
         }else{
             System.out.println("Usage: " + args[0] +" [-options] class [args...] \n");
         }
     }
 
     private void startJVM(String [] args){
-        String temp = "";
-        for (int i = 2; i < args.length;i++){
-            temp += args[i] + " ";
+        FullPrint.printArrays(args);
+        ClassPath cp = new ClassPath().parse(args[1],"");
+        String className = args[2].replace(".","/");
+        byte[] bytes = cp.readClass(className);
+        FullPrint.printeByteArrays(bytes);
+
+//        String temp = "";
+//        for (int i = 2; i < args.length;i++){
+//            temp += args[i] + " ";
+//        }
+//        String str = String.format("classPath:%s, class:%s ,args:%s",args[0],args[1],temp);
+//        System.out.println(str);
+    }
+
+    private boolean findArgs(String[] args,String arg){
+        int length = args.length;
+        for (int i = 0 ;i < length;i++){
+            if (arg.equals(args[i])){
+                return true;
+            }
         }
-        String str = String.format("classPath:%s, class:%s ,args:%s",args[0],args[1],temp);
-        System.out.println(str);
+
+        return false;
     }
 
 

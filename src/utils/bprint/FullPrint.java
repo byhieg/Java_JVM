@@ -50,6 +50,7 @@ public class FullPrint {
         int fLength = arrays.length;
         if(fLength == 0){
             System.out.println("没有元素");
+            return;
         }
         int sLength = arrays[0].length;
         System.out.println("一共有" + fLength * sLength + "个元素");
@@ -59,6 +60,27 @@ public class FullPrint {
                 System.out.print(arrays[i][j] + " ");
             }
             System.out.println("");
+        }
+    }
+
+    public static void printeByteArrays(byte[] bytes){
+        int blength = bytes.length;
+        if (blength == 0){
+            System.out.println("没有元素");
+            return;
+        }
+        System.out.println("下面数组的值");
+        int [] items = new int[bytes.length];
+        for(int i = 0; i < bytes.length;i++){
+            if (bytes[i] < 0){
+                items[i] = bytes[i] + 256;
+            }else{
+                items[i] = bytes[i];
+            }
+            System.out.print(items[i] + " ");
+            if (i % 10 == 0 && i > 0){
+                System.out.println();
+            }
         }
     }
 }

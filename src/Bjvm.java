@@ -9,7 +9,6 @@ public class Bjvm {
 
     public static void main(String[] args) {
         Cmd cmd = new Cmd();
-        FullPrint.printArrays(args);
         cmd.parseCmd(args);
     }
 }
